@@ -2,8 +2,8 @@
 
 Resource  ../resources/common.robot
 
-Task Setup  Begin Web Test
-Task Teardown  End Web Test
+Task Setup  Begin Selenium Web Test
+Task Teardown  End Selenium Web Test
 
 *** Test Cases ***
 

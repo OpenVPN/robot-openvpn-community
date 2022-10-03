@@ -10,9 +10,8 @@ ${PATCHWORK_OPENVPN2_PAGE}  https://patchwork.openvpn.net/project/openvpn2/list/
 
 *** Keywords ***
 
-Begin Web Test
-    Open Browser  about:blank  ${BROWSER}
+Begin Selenium Web Test
+    SeleniumLibrary.Open Browser  about:blank  ${BROWSER}
 
-End Web Test
-    Close Browser
-
+End Selenium Web Test
+    SeleniumLibrary.Close Browser
