@@ -4,8 +4,9 @@ Library  SeleniumLibrary
 
 *** Variables ***
 
-${BROWSER}           firefox
-${FORUMS_MAIN_PAGE}  https://forums.openvpn.net
+${BROWSER}                  firefox
+${FORUMS_MAIN_PAGE}         https://forums.openvpn.net
+${PATCHWORK_OPENVPN2_PAGE}  https://patchwork.openvpn.net/project/openvpn2/list/
 
 *** Keywords ***
 
