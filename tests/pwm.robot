@@ -5,7 +5,7 @@ Resource  ../resources/common.robot
 Task Setup     Begin Browser Web Test
 Task Teardown  End Browser Web Test
 
-*** Test Cases ***
+*** Keywords ***
 
 Login To Pwm
   Browser.New Page     ${PWM_MAIN_PAGE}
@@ -14,4 +14,9 @@ Login To Pwm
   # $var instead of ${var}
   Browser.Fill Secret  id=password  $COMMUNITY_LDAP_PASSWORD
   Browser.Click        id=submitBtn
+
+*** Test Cases ***
+
+Test Login To Pwm
+  Login To Pwm
   Get Element          id=HomeButton
