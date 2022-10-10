@@ -11,7 +11,8 @@ ${PWM_MAIN_PAGE}            https://pwm.openvpn.in/pwm
 ${TRAC_LOGIN_PAGE}          https://community.openvpn.in/openvpn/login
 ${PATCHWORK_OPENVPN2_PAGE}  https://patchwork.openvpn.net/project/openvpn2/list/
 
-# This is required for connections from VPN or VPC because of certificate mismatch (.in instead of .net)
+# Prevent test failures even when not testing through the public Internet (e.g.
+# due to Cloudflare or "not publicly accessible at all")
 @{CHROMIUM_ARGS}            --ignore-certificate-errors
 
 # Required for basic auth (Trac)
