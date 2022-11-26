@@ -9,6 +9,7 @@ You will a few pip3 packages. The versions that are known to work are:
 * robotframework (5.0.1)
 * robotframework-browser (14.1.0)
 * robotframework-seleniumlibrary (6.0.0)
+* robotframework-imaplibrary2 (0.4.6)
 
 # Tests
 
@@ -40,8 +41,15 @@ Test basic Pwm functionality plus the LDAP backend:
 
 * Test Pwm login through the intranet to avoid Cloudflare
 * Test changing the "sn" attribute in LDAP using Pwm's "Update profile" page
+* Test password reset functionality
 
 Environment variables required:
 
 * COMMUNITY_LDAP_USERNAME
 * COMMUNITY_LDAP_PASSWORD
+* PASSWORD_RESET_LDAP_USERNAME: LDAP user to test password resets on
+* PASSWORD_RESET_LDAP_PASSWORD: LDAP user password
+* PASSWORD_RESET_LDAP_USER_EMAIL: The email address used by the LDAP user. This is also used to as IMAP username.
+* IMAP_HOST: IMAP server DNS name or IP address
+* IMAP_PORT: IMAP port
+* IMAP_PASSWORD: The IMAP password
