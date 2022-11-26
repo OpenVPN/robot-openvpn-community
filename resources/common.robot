@@ -7,6 +7,7 @@ Library  Browser
 
 ${BROWSER}                  firefox
 ${FORUMS_MAIN_PAGE}         https://forums.openvpn.net
+${PWM_BASE_URL}             https://pwm.openvpn.in
 ${PWM_MAIN_PAGE}            https://pwm.openvpn.in/pwm
 ${TRAC_LOGIN_PAGE}          https://community.openvpn.in/openvpn/login
 ${PATCHWORK_OPENVPN2_PAGE}  https://patchwork.openvpn.net/project/openvpn2/list/
