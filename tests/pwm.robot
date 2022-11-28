@@ -24,6 +24,11 @@ ${PASSWORD_RESET_LDAP_USERNAME}  %{PASSWORD_RESET_LDAP_USERNAME}
 ${PASSWORD_RESET_LDAP_PASSWORD}  %{PASSWORD_RESET_LDAP_PASSWORD}
 ${PASSWORD_RESET_LDAP_USER_EMAIL}  %{PASSWORD_RESET_LDAP_USER_EMAIL}
 
+# It seems not possible to have a password input method for password
+# reset tests that works universally. So, allow switching between
+# two different ones.
+${PASSWORD_RESET_INPUT_METHOD}  %{PASSWORD_RESET_INPUT_METHOD}
+
 *** Keywords ***
 
 Login To Pwm
@@ -54,6 +59,9 @@ Validate Value Of Sn
   [Arguments]  ${expected_value}
   ${sn}  Get Property  id=sn  property=value
   BuiltIn.Should Be Equal  ${sn}  ${expected_value}
+
+Validate Pwm Password Reset Parameters
+  Builtin.Should Match Regexp  ${PASSWORD_RESET_INPUT_METHOD}  ^(A|B)$
 
 Request Password Reset
   Browser.Set Browser Timeout  30 seconds
@@ -102,20 +110,28 @@ Sanitize Password Reset URL
   ${sanitized_password_reset_url} =  String.Replace String Using Regexp  ${password_reset_url}  https://(\\w|[.])*  ${PWM_BASE_URL}
   Builtin.Return From Keyword                ${sanitized_password_reset_url}
 
-Reset Password
-  [Arguments]  ${password_reset_url}
-  Browser.New Page  ${password_reset_url}
-  Browser.Click     id=button-continue
+# Pwm a nasty tendency of wiping out one or two of the password fields
+# unexpectedly with Javascript. On some systems this list of steps seems to be
+# completely reliable and on others completely broken.
+Enter New Password Method A
+  Browser.Fill Secret  id=password1  $PASSWORD_RESET_LDAP_PASSWORD
+  Browser.Fill Secret  id=password2  $PASSWORD_RESET_LDAP_PASSWORD
+  Browser.Click        id=password_button
 
-  # On some systems/browsers Pwm has a nasty tendency of wiping out the second
-  # password field unexpectedly. This list of steps seems to be reliable,
-  # though. Normally you'd only need to fill in the fields and click the
-  # "Submit" button and be done with it, but here it was not reliable.
+# This works on some systems.
+Enter New Password Method B
   Browser.Fill Secret   id=password1  $PASSWORD_RESET_LDAP_PASSWORD
   Browser.Click         id=password1
   Browser.Keyboard Key  press  Enter
   Browser.Fill Secret   id=password2  $PASSWORD_RESET_LDAP_PASSWORD
   Browser.Keyboard Key  press  Enter
+
+Reset Password
+  [Arguments]  ${password_reset_url}
+  Browser.New Page  ${password_reset_url}
+  Browser.Click     id=button-continue
+  Builtin.Run Keyword If  '${PASSWORD_RESET_INPUT_METHOD}' == 'A'  Enter New Password Method A
+  Builtin.Run Keyword If  '${PASSWORD_RESET_INPUT_METHOD}' == 'B'  Enter New Password Method B
 
 Wait For Password Change Notification
   ${notification_email} =  Wait For Email    sender=${SENDER}  recipient=${PASSWORD_RESET_LDAP_USER_EMAIL}  subject=${NOTIFICATION_EMAIL_SUBJECT}  timeout=120
@@ -144,6 +160,7 @@ Test Pwm Attribute Change
   Change Value Of Sn  original-before-robot
 
 Test Pwm Password Reset
+  Validate Pwm Password Reset Parameters
   Request Password Reset
   
   ${confirmation_email} =            Get Password Reset Email

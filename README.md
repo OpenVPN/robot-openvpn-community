@@ -47,6 +47,7 @@ Environment variables required:
 
 * COMMUNITY_LDAP_USERNAME
 * COMMUNITY_LDAP_PASSWORD
+* PASSWORD_RESET_INPUT_METHOD: Method to use to input passwords into Pwm password reset form. Use either "A" or "B", depending on which works in your case.
 * PASSWORD_RESET_LDAP_USERNAME: LDAP user to test password resets on
 * PASSWORD_RESET_LDAP_PASSWORD: LDAP user password
 * PASSWORD_RESET_LDAP_USER_EMAIL: The email address used by the LDAP user. This is also used to as IMAP username.
