@@ -56,6 +56,7 @@ Validate Value Of Sn
   BuiltIn.Should Be Equal  ${sn}  ${expected_value}
 
 Request Password Reset
+  Browser.Set Browser Timeout  30 seconds
   Browser.New Page   ${PWM_MAIN_PAGE}
   Browser.Click      id=Title_ForgottenPassword
   Browser.Fill Text  id=cn  ${PASSWORD_RESET_LDAP_USERNAME}
@@ -103,11 +104,18 @@ Sanitize Password Reset URL
 
 Reset Password
   [Arguments]  ${password_reset_url}
-  Browser.New Page     ${password_reset_url}
-  Browser.Click        id=button-continue
-  Browser.Fill Secret  id=password1  $PASSWORD_RESET_LDAP_PASSWORD
-  Browser.Fill Secret  id=password2  $PASSWORD_RESET_LDAP_PASSWORD
-  Browser.Click        id=password_button
+  Browser.New Page  ${password_reset_url}
+  Browser.Click     id=button-continue
+
+  # On some systems/browsers Pwm has a nasty tendency of wiping out the second
+  # password field unexpectedly. This list of steps seems to be reliable,
+  # though. Normally you'd only need to fill in the fields and click the
+  # "Submit" button and be done with it, but here it was not reliable.
+  Browser.Fill Secret   id=password1  $PASSWORD_RESET_LDAP_PASSWORD
+  Browser.Click         id=password1
+  Browser.Keyboard Key  press  Enter
+  Browser.Fill Secret   id=password2  $PASSWORD_RESET_LDAP_PASSWORD
+  Browser.Keyboard Key  press  Enter
 
 Wait For Password Change Notification
   ${notification_email} =  Wait For Email    sender=${SENDER}  recipient=${PASSWORD_RESET_LDAP_USER_EMAIL}  subject=${NOTIFICATION_EMAIL_SUBJECT}  timeout=120
