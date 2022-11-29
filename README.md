@@ -41,6 +41,14 @@ Test basic Pwm functionality plus the LDAP backend:
 
 * Test Pwm login through the intranet to avoid Cloudflare
 * Test changing the "sn" attribute in LDAP using Pwm's "Update profile" page
+
+Environment variables required:
+
+* COMMUNITY_LDAP_USERNAME
+* COMMUNITY_LDAP_PASSWORD
+
+## pwm-password-reset.robot
+
 * Test password reset functionality
 
 Environment variables required:
