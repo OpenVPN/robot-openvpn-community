@@ -10,7 +10,7 @@ Task Teardown  End Selenium Web Test
 Login To Forums
   SeleniumLibrary.Go To  ${FORUMS_MAIN_PAGE}
 
-  SeleniumLibrary.Click Element  xpath://a[contains(text(), 'Login')]
+  SeleniumLibrary.Click Element  xpath://a[contains(text(), 'Login') and not(@class='lastsubject')]
   SeleniumLibrary.Input Text  id:username  %{COMMUNITY_LDAP_USERNAME}
   SeleniumLibrary.Input Password  id:password  %{COMMUNITY_LDAP_PASSWORD}
   # Without a small delay clicking on "Login" consistently fails
